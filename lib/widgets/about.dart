@@ -107,7 +107,7 @@ class AboutMe {
                     alignment: Alignment.centerRight,
                     child: TextButton(
                       onPressed: () => Navigator.of(context).pop(),
-                      child: const Text('Close'),
+                      child: const Text('إغلاق'),
                     ),
                   ),
                 ],
