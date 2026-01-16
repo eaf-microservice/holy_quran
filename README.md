@@ -64,6 +64,7 @@ lib/
 ├── main.dart                 # App entry point
 ├── screens/
 │   ├── home_screen.dart      # Main screen with surah list
+│   ├── read_screen.dart      # reader screen of surah
 │   └── settings_screen.dart  # Settings and preferences
 ├── utils/
 │   └── quran_surahs.dart    # Surah metadata (114 surahs)
@@ -161,20 +162,23 @@ This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.t
 
 Contributions, issues, and feature requests are welcome! Feel free to check the issues page.
 
+## Contact
+
+- Developer : Fouad El Azbi
+- Company : EAF microservice
+- Phone Company : +212 645 994 904
+- Email : EAF.microservice@gmail.com
+- Web site : https://eaf-microservice.netlify.app/
+
 ## ⚠️ Note
 
 This app is for educational and personal use. The Quranic text and images are provided for reading purposes only.
 
 ---
 
-**May this app help you in your journey of reading and understanding the Holy Quran. بارك الله فيك**
+**May this app help you in your journey of reading and understanding the Holy Quran.**
 
 **لا تنسونا من صالح الدعاء**
+**بارك الله فيك**
 
-## Contact
-
-- Developer : Fouad El Azb
-- Company : EAF microservice
-- Phone Company : +212 645 994 904
-- Email : EAF.microservice@gmail.com
-- Web site : https://eaf-microservice.netlify.app/
+---
