@@ -1,12 +1,10 @@
 import 'dart:math' as math;
 
-import 'package:eaf/utils/quran_surahs.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 import 'settings_screen.dart';
-
 
 class ReaderScreen extends StatefulWidget {
   final int initialPage; // 1..604
@@ -133,9 +131,12 @@ class _ReaderScreenState extends State<ReaderScreen>
               if (v == null) {
                 Navigator.pop(ctx);
                 return;
-              }else if (v < 1 || v > totalPages) {
+              } else if (v < 1 || v > totalPages) {
                 ScaffoldMessenger.of(ctx).showSnackBar(
-                  SnackBar(content: Text('لا يوجد صفحة بهذا الرقم'), backgroundColor: Colors.red),
+                  SnackBar(
+                    content: Text('لا يوجد صفحة بهذا الرقم'),
+                    backgroundColor: Colors.red,
+                  ),
                 );
                 return;
               } else {
@@ -191,7 +192,9 @@ class _ReaderScreenState extends State<ReaderScreen>
                           if (bms.isEmpty) {
                             return const Padding(
                               padding: EdgeInsets.all(24.0),
-                              child: Center(child: Text('لا يوجد إشارات مرجعية بعد')),
+                              child: Center(
+                                child: Text('لا يوجد إشارات مرجعية بعد'),
+                              ),
                             );
                           }
                           return ListView.builder(

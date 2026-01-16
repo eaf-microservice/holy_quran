@@ -1,8 +1,6 @@
-
 import 'package:eaf/utils/quran_surahs.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wakelock_plus/wakelock_plus.dart';
 
 import '../widgets/about.dart' show AboutMe;
 import 'read_screen.dart';
@@ -33,12 +31,10 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _loadPrefs();
-
   }
 
   @override
   void dispose() {
-
     super.dispose();
   }
 
@@ -70,6 +66,17 @@ class _HomeScreenState extends State<HomeScreen> {
           s.english.toLowerCase().contains(q) ||
           s.index.toString() == q;
     }).toList();
+  }
+
+  Future<void> _showAboutMe() {
+    return AboutMe(
+      applicationName: 'القرآن الكريم',
+      logo: Image.asset('assets/icon/icon.png', width: 100, height: 100),
+      version: '1.0.1',
+      description:
+          //'Mushaf with search, bookmarks, tajweed, and night mode.',
+          'المصحف مزود بخاصية البحث عن السور، والإشارات المرجعية، والتجويد، والوضع الليلي.',
+    ).showCustomAbout(context);
   }
 
   void _openReader({int? initialPage}) async {
@@ -138,18 +145,7 @@ class _HomeScreenState extends State<HomeScreen> {
               tooltip: 'عن التطبيق',
               icon: const Icon(Icons.info_outline),
               onPressed: () async {
-                AboutMe(
-                  applicationName: 'القرآن الكريم',
-                  logo: Image.asset(
-                    'assets/icon/icon.png',
-                    width: 100,
-                    height: 100,
-                  ),
-                  version: '1.0.1',
-                  description:
-                      //'Mushaf with search, bookmarks, tajweed, and night mode.',
-                      'المصحف مزود بخاصية البحث عن السور، والإشارات المرجعية، والتجويد، والوضع الليلي.',
-                ).showCustomAbout(context);
+                _showAboutMe();
               },
             ),
           ],
