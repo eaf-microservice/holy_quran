@@ -1,11 +1,11 @@
-# القرآن الكريم - Holy Quran App
+# Holy Quran - القرآن الكريم 
 
 A beautiful, feature-rich offline Quran reading application built with Flutter. Read the Holy Quran anytime, anywhere without an internet connection.
 
 ## 📱 Features
 
 ### Core Features
-- **Complete Quran**: Full 604-page Madani Mushaf (المصحف المدني)
+- **Complete Quran**: Full 604-page
 - **Offline Access**: All content works completely offline - no internet required
 - **Dual Reading Modes**:
   - **Normal Mode**: Standard high-quality
@@ -55,7 +55,6 @@ A beautiful, feature-rich offline Quran reading application built with Flutter. 
 ### Dependencies
 - `shared_preferences`: Local data persistence
 - `wakelock_plus`: Keep screen awake during reading
-- `page_flip`: Page flip animations (optional)
 - `cupertino_icons`: iOS-style icons
 
 ### Project Structure
