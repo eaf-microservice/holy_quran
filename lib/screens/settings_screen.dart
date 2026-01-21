@@ -34,10 +34,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Future<void> _load() async {
     final sp = await SharedPreferences.getInstance();
     setState(() {
-      _mode = (sp.getBool(PrefsKeys.tajweed) ?? false) ? ReadingMode.tajweed : ReadingMode.normal;
-      _theme = (sp.getBool(PrefsKeys.nightMode) ?? false) ? AppTheme.dark : AppTheme.light;
+      _mode = (sp.getBool(PrefsKeys.tajweed) ?? false)
+          ? ReadingMode.tajweed
+          : ReadingMode.normal;
+      _theme = (sp.getBool(PrefsKeys.nightMode) ?? false)
+          ? AppTheme.dark
+          : AppTheme.light;
       _lastPage = sp.getInt(PrefsKeys.lastPage);
-      _bookmarksCount = (sp.getStringList(PrefsKeys.bookmarks) ?? const []).length;
+      _bookmarksCount =
+          (sp.getStringList(PrefsKeys.bookmarks) ?? const []).length;
     });
   }
 
@@ -151,8 +156,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   errorBuilder: (context, error, stackTrace) {
                     return Container(
                       color: Colors.grey.shade200,
-                      child: const Icon(Icons.image_not_supported,
-                          color: Colors.grey),
+                      child: const Icon(
+                        Icons.image_not_supported,
+                        color: Colors.grey,
+                      ),
                     );
                   },
                 ),
@@ -172,168 +179,165 @@ class _SettingsScreenState extends State<SettingsScreen> {
       child: Theme(
         data: _buildTheme(isDark),
         child: Scaffold(
-          appBar: AppBar(
-            title: const Text('الإعدادات'),
-            centerTitle: true,
-          ),
-        body: ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            Text(
-              'وضع القراءة',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: isDark ? Colors.white : Colors.black87,
-                  ),
-              textAlign: TextAlign.right,
-              textDirection: TextDirection.rtl,
-            ),
-            const SizedBox(height: 8),
-            _buildReadingModeOption(
-              context,
-              ReadingMode.normal,
-              'المصحف العادي',
-              'الصفحات العادية',
-              'assets/images/quran/001.png',
-            ),
-            const SizedBox(height: 8),
-            _buildReadingModeOption(
-              context,
-              ReadingMode.tajweed,
-              'المصحف التجويدي',
-              'الصفحات التجويدية',
-              'assets/images/tajweed/001.gif',
-            ),
-            const Divider(height: 32),
-            Text(
-              'الوضع',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: isDark ? Colors.white : Colors.black87,
-                  ),
-              textAlign: TextAlign.right,
-              textDirection: TextDirection.rtl,
-            ),
-            const SizedBox(height: 8),
-            RadioListTile<AppTheme>(
-              title: const Text(
-                'الوضع الفاتح',
+          appBar: AppBar(title: const Text('الإعدادات'), centerTitle: true),
+          body: ListView(
+            padding: const EdgeInsets.all(16),
+            children: [
+              Text(
+                'وضع القراءة',
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: isDark ? Colors.white : Colors.black87,
+                ),
                 textAlign: TextAlign.right,
                 textDirection: TextDirection.rtl,
               ),
-              value: AppTheme.light,
-              groupValue: _theme,
-              onChanged: (v) {
-                if (v == null) return;
-                setState(() => _theme = v);
-                _saveTheme(v);
-              },
-            ),
-            RadioListTile<AppTheme>(
-              title: const Text(
-                'الوضع الليلي',
+              const SizedBox(height: 8),
+              _buildReadingModeOption(
+                context,
+                ReadingMode.normal,
+                'المصحف العادي',
+                'الصفحات العادية',
+                'assets/images/quran/001.webp',
+              ),
+              const SizedBox(height: 8),
+              _buildReadingModeOption(
+                context,
+                ReadingMode.tajweed,
+                'المصحف التجويدي',
+                'الصفحات التجويدية',
+                'assets/images/tajweed/001.webp',
+              ),
+              const Divider(height: 32),
+              Text(
+                'الوضع',
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: isDark ? Colors.white : Colors.black87,
+                ),
                 textAlign: TextAlign.right,
                 textDirection: TextDirection.rtl,
               ),
-              value: AppTheme.dark,
-              groupValue: _theme,
-              onChanged: (v) {
-                if (v == null) return;
-                setState(() => _theme = v);
-                _saveTheme(v);
-              },
-            ),
-            const Divider(height: 32),
-            Text(
-              'البيانات',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: isDark ? Colors.white : Colors.black87,
-                  ),
-              textAlign: TextAlign.right,
-              textDirection: TextDirection.rtl,
-            ),
-            const SizedBox(height: 8),
-            ListTile(
-              leading: const Icon(Icons.play_circle_outline),
-              title: const Text(
-                'آخر صفحة قراءة',
+              const SizedBox(height: 8),
+              RadioListTile<AppTheme>(
+                title: const Text(
+                  'الوضع الفاتح',
+                  textAlign: TextAlign.right,
+                  textDirection: TextDirection.rtl,
+                ),
+                value: AppTheme.light,
+                groupValue: _theme,
+                onChanged: (v) {
+                  if (v == null) return;
+                  setState(() => _theme = v);
+                  _saveTheme(v);
+                },
+              ),
+              RadioListTile<AppTheme>(
+                title: const Text(
+                  'الوضع الليلي',
+                  textAlign: TextAlign.right,
+                  textDirection: TextDirection.rtl,
+                ),
+                value: AppTheme.dark,
+                groupValue: _theme,
+                onChanged: (v) {
+                  if (v == null) return;
+                  setState(() => _theme = v);
+                  _saveTheme(v);
+                },
+              ),
+              const Divider(height: 32),
+              Text(
+                'البيانات',
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: isDark ? Colors.white : Colors.black87,
+                ),
                 textAlign: TextAlign.right,
                 textDirection: TextDirection.rtl,
               ),
-              subtitle: Text(
-                _lastPage == null ? 'غير محدد' : 'الصفحة $_lastPage',
-                textAlign: TextAlign.right,
-                textDirection: TextDirection.rtl,
+              const SizedBox(height: 8),
+              ListTile(
+                leading: const Icon(Icons.play_circle_outline),
+                title: const Text(
+                  'آخر صفحة قراءة',
+                  textAlign: TextAlign.right,
+                  textDirection: TextDirection.rtl,
+                ),
+                subtitle: Text(
+                  _lastPage == null ? 'غير محدد' : 'الصفحة $_lastPage',
+                  textAlign: TextAlign.right,
+                  textDirection: TextDirection.rtl,
+                ),
+                trailing: TextButton(
+                  onPressed: _lastPage == null ? null : _resetLastPage,
+                  child: const Text('حذف'),
+                ),
               ),
-              trailing: TextButton(
-                onPressed: _lastPage == null ? null : _resetLastPage,
-                child: const Text('حذف'),
-              ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.bookmarks_outlined),
-              title: const Text(
-                'الإشارات المرجعية',
-                textAlign: TextAlign.right,
-                textDirection: TextDirection.rtl,
-              ),
-              subtitle: Text(
-                '$_bookmarksCount محفوظة',
-                textAlign: TextAlign.right,
-                textDirection: TextDirection.rtl,
-              ),
-              trailing: TextButton(
-                onPressed: _bookmarksCount == 0
-                    ? null
-                    : () async {
-                        final ok = await showDialog<bool>(
-                          context: context,
-                          builder: (ctx) => Directionality(
-                            textDirection: TextDirection.rtl,
-                            child: AlertDialog(
-                              title: const Text(
-                                'حذف جميع الإشارات المرجعية؟',
-                                textAlign: TextAlign.right,
-                                textDirection: TextDirection.rtl,
-                              ),
-                              content: const Text(
-                                'هذا لا يمكن التراجع عنه.',
-                                textAlign: TextAlign.right,
-                                textDirection: TextDirection.rtl,
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(ctx, false),
-                                  child: const Text('إلغاء'),
+              ListTile(
+                leading: const Icon(Icons.bookmarks_outlined),
+                title: const Text(
+                  'الإشارات المرجعية',
+                  textAlign: TextAlign.right,
+                  textDirection: TextDirection.rtl,
+                ),
+                subtitle: Text(
+                  '$_bookmarksCount محفوظة',
+                  textAlign: TextAlign.right,
+                  textDirection: TextDirection.rtl,
+                ),
+                trailing: TextButton(
+                  onPressed: _bookmarksCount == 0
+                      ? null
+                      : () async {
+                          final ok = await showDialog<bool>(
+                            context: context,
+                            builder: (ctx) => Directionality(
+                              textDirection: TextDirection.rtl,
+                              child: AlertDialog(
+                                title: const Text(
+                                  'حذف جميع الإشارات المرجعية؟',
+                                  textAlign: TextAlign.right,
+                                  textDirection: TextDirection.rtl,
                                 ),
-                                FilledButton(
-                                  onPressed: () => Navigator.pop(ctx, true),
-                                  child: const Text('حذف'),
+                                content: const Text(
+                                  'هذا لا يمكن التراجع عنه.',
+                                  textAlign: TextAlign.right,
+                                  textDirection: TextDirection.rtl,
                                 ),
-                              ],
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(ctx, false),
+                                    child: const Text('إلغاء'),
+                                  ),
+                                  FilledButton(
+                                    onPressed: () => Navigator.pop(ctx, true),
+                                    child: const Text('حذف'),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                        if (ok == true) {
-                          await _clearBookmarks();
-                        }
-                      },
-                child: const Text('حذف'),
+                          );
+                          if (ok == true) {
+                            await _clearBookmarks();
+                          }
+                        },
+                  child: const Text('حذف'),
+                ),
               ),
-            ),
-            const SizedBox(height: 24),
-            FilledButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('حفظ التغييرات'),
-                  SizedBox(width: 8),
-                  Icon(Icons.check),
-                ],
+              const SizedBox(height: 24),
+              FilledButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('حفظ التغييرات'),
+                    SizedBox(width: 8),
+                    Icon(Icons.check),
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
         ),
       ),
     );

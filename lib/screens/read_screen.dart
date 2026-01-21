@@ -81,11 +81,12 @@ class _ReaderScreenState extends State<ReaderScreen>
     // assets/images/quran/###.png or tajweed folder if enabled assets/images/tajweed/###.gif
     final idx = page.toString().padLeft(3, '0');
     final base = 'assets/images${_tajweed ? '/tajweed' : '/quran'}';
-    if (_tajweed) {
-      return '$base/$idx.gif';
-    } else {
-      return '$base/$idx.png';
-    }
+    return '$base/$idx.webp';
+    // if (_tajweed) {
+    //   return '$base/$idx.gif';
+    // } else {
+    //   return '$base/$idx.png';
+    // }
   }
 
   // Map PageView index (0..totalPages-1) to actual page number RTL
