@@ -50,3 +50,13 @@ app.*.map.json
 *.key
 key.properties
 *.jks
+
+venv/
+env/
+.env
+.idea/
+.pytest_cache/
+__pycache__/
+*.sqlite3
+*.logs
+*.log

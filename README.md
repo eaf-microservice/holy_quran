@@ -1,5 +1,7 @@
 # Holy Quran - القرآن الكريم 
 
+![Quran](assets/icon/icon.png)
+
 A beautiful, feature-rich offline Quran reading application built with Flutter. Read the Holy Quran anytime, anywhere without an internet connection.
 
 ## 📱 Features
