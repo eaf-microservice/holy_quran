@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
+import '../utils/show_toast.dart';
 import 'settings_screen.dart';
+import '../utils/quran_sajda.dart';
 
 class ReaderScreen extends StatefulWidget {
   final int initialPage; // 1..604
@@ -26,7 +28,7 @@ class ReaderScreen extends StatefulWidget {
 
 class _ReaderScreenState extends State<ReaderScreen>
     with SingleTickerProviderStateMixin {
-  static const int totalPages = 604; // Madani mushaf
+  static const int totalPages = 606; // holy quran, plus 2 khatem pages
   late final PageController _pageController;
   late int _currentPage;
   late bool _night;
@@ -78,15 +80,17 @@ class _ReaderScreenState extends State<ReaderScreen>
   }
 
   String _assetForPage(int page) {
+    if (page == 605) {
+      return 'images/khatem/page_1.jpg';
+    } else if (page == 606) {
+      return 'images/khatem/page_2.jpg';
+    }
+
     // assets/images/quran/###.png or tajweed folder if enabled assets/images/tajweed/###.gif
     final idx = page.toString().padLeft(3, '0');
     final base = 'assets/images${_tajweed ? '/tajweed' : '/quran'}';
+
     return '$base/$idx.webp';
-    // if (_tajweed) {
-    //   return '$base/$idx.gif';
-    // } else {
-    //   return '$base/$idx.png';
-    // }
   }
 
   // Map PageView index (0..totalPages-1) to actual page number RTL
@@ -97,6 +101,14 @@ class _ReaderScreenState extends State<ReaderScreen>
       _currentPage = _pageForIndex(index);
     });
     _persistLastPage();
+    final sajdah = quranSajdahData.firstWhere(
+      (sajda) => sajda.page == _currentPage,
+      orElse: () => SajdaInfo(0, "", "", 0),
+    );
+    if (sajdah.page == _currentPage) {
+      final sajdahType = sajdah.sajdahType;
+      return showToast(" سجدة في هذه الصفحة $sajdahType");
+    }
   }
 
   void _toggleBookmark() {
@@ -119,7 +131,7 @@ class _ReaderScreenState extends State<ReaderScreen>
         content: TextField(
           controller: controller,
           keyboardType: TextInputType.number,
-          decoration: const InputDecoration(hintText: '1..604'),
+          decoration: const InputDecoration(hintText: '1..606'),
         ),
         actions: [
           TextButton(
@@ -232,92 +244,96 @@ class _ReaderScreenState extends State<ReaderScreen>
                 ],
               )
             : null,
-        body: Directionality(
-          textDirection: TextDirection.ltr, // enforce RTL scroll
-          child: NotificationListener<ScrollNotification>(
-            onNotification: (n) => false,
-            child: PageView.builder(
-              controller: _pageController,
-              itemCount: totalPages,
-              onPageChanged: _onPageChanged,
-              scrollDirection: Axis.horizontal,
-              // physics remain default; RTL achieved by reversing index mapping
-              itemBuilder: (ctx, index) {
-                final page = _pageForIndex(index);
-                final rotation = _computeYRotation(index);
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _showUI = !_showUI;
-                    });
-                  },
-                  behavior: HitTestBehavior.translucent,
-                  child: Transform(
-                    alignment: Alignment.center,
-                    transform: Matrix4.identity()
-                      ..setEntry(3, 2, 0.001) // perspective
-                      ..rotateY(rotation),
-                    child: _showUI
-                        ? Center(
-                            child: InteractiveViewer(
-                              minScale: 1.0,
-                              maxScale: 3.0,
-                              child: SizedBox(
-                                width: deviceWidth * 0.9,
-                                height: (deviceWidth * 0.9) / pageAspectRatio,
-                                child: DecoratedBox(
-                                  decoration: BoxDecoration(
-                                    color: bg,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(
-                                          _night ? 0.6 : 0.2,
-                                        ),
-                                        blurRadius: 16,
-                                        spreadRadius: 2,
-                                      ),
-                                    ],
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8),
-                                    child: Image.asset(
-                                      _assetForPage(page),
-                                      fit: BoxFit.contain,
-                                      width: deviceWidth * 0.9,
-                                      height:
-                                          (deviceWidth * 0.9) / pageAspectRatio,
-                                      errorBuilder: (c, e, s) {
-                                        return Center(
-                                          child: Text(
-                                            'Missing page image: ${_assetForPage(page)}',
-                                            style: TextStyle(color: fg),
+        body: SafeArea(
+          child: Directionality(
+            textDirection: TextDirection.ltr, // enforce RTL scroll
+            child: NotificationListener<ScrollNotification>(
+              onNotification: (n) => false,
+              child: PageView.builder(
+                controller: _pageController,
+                itemCount: totalPages,
+                onPageChanged: _onPageChanged,
+                scrollDirection: Axis.horizontal,
+                // physics remain default; RTL achieved by reversing index mapping
+                itemBuilder: (ctx, index) {
+                  final page = _pageForIndex(index);
+                  final rotation = _computeYRotation(index);
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _showUI = !_showUI;
+                      });
+                    },
+                    behavior: HitTestBehavior.translucent,
+                    child: Transform(
+                      alignment: Alignment.center,
+                      transform: Matrix4.identity()
+                        ..setEntry(3, 2, 0.001) // perspective
+                        ..rotateY(rotation),
+                      child: _showUI
+                          ? Center(
+                              child: InteractiveViewer(
+                                minScale: 1.0,
+                                maxScale: 3.0,
+                                child: SizedBox(
+                                  width: deviceWidth * 0.9,
+                                  height: (deviceWidth * 0.9) / pageAspectRatio,
+                                  child: DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      color: bg,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withValues(
+                                            alpha: _night ? 0.6 : 0.2,
                                           ),
-                                        );
-                                      },
+                                          // color: Colors.black.withOpacity(_night ? 0.6 : 0.2,),
+                                          blurRadius: 16,
+                                          spreadRadius: 2,
+                                        ),
+                                      ],
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(8),
+                                      child: Image.asset(
+                                        _assetForPage(page),
+                                        fit: BoxFit.contain,
+                                        width: deviceWidth * 0.9,
+                                        height:
+                                            (deviceWidth * 0.9) /
+                                            pageAspectRatio,
+                                        errorBuilder: (c, e, s) {
+                                          return Center(
+                                            child: Text(
+                                              'Missing page image: ${_assetForPage(page)}',
+                                              style: TextStyle(color: fg),
+                                            ),
+                                          );
+                                        },
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
+                            )
+                          : SizedBox.expand(
+                              child: Image.asset(
+                                _assetForPage(page),
+                                fit: BoxFit.fill,
+                                errorBuilder: (c, e, s) {
+                                  return Center(
+                                    child: Text(
+                                      'Missing page image: ${_assetForPage(page)}',
+                                      style: TextStyle(color: fg),
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
-                          )
-                        : SizedBox.expand(
-                            child: Image.asset(
-                              _assetForPage(page),
-                              fit: BoxFit.fill,
-                              errorBuilder: (c, e, s) {
-                                return Center(
-                                  child: Text(
-                                    'Missing page image: ${_assetForPage(page)}',
-                                    style: TextStyle(color: fg),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                  ),
-                );
-              },
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         ),

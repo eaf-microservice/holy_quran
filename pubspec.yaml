@@ -2,7 +2,7 @@ name: eaf
 description: "Quran karim offline for the muslim to read the holy book any time wihtout coonection"
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.1+11
+version: 1.0.2+12
 
 environment:
   sdk: ^3.10.1
@@ -13,6 +13,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   shared_preferences: ^2.2.2
   wakelock_plus: ^1.2.5
+  fluttertoast: ^9.0.0
 
 dev_dependencies:
   flutter_test:
@@ -30,6 +31,6 @@ flutter:
   uses-material-design: true
   assets:
     - assets/icon/
-    - assets/images/
     - assets/images/tajweed/
     - assets/images/quran/
+    - assets/images/khatem/

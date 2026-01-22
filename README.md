@@ -2,12 +2,14 @@
 
 ![Quran](assets/icon/icon.png)
 
-A beautiful, feature-rich offline Quran reading application built with Flutter. Read the Holy Quran anytime, anywhere without an internet connection.
+A beautiful, feature-rich offline Quran reading application. Read the Holy Quran anytime plus Doae lkhatem, anywhere without an internet connection.
 
 ## 📱 Features
 
 ### Core Features
-- **Complete Quran**: Full 604-page
+- **Complete Quran**: Full 604 pages
+- **Doae lkhatem**: 605-605 pages
+- **Signe to sajdah**: tasot to know when you should sajdah
 - **Offline Access**: All content works completely offline - no internet required
 - **Dual Reading Modes**:
   - **Normal Mode**: Standard high-quality
@@ -18,7 +20,7 @@ A beautiful, feature-rich offline Quran reading application built with Flutter. 
 - **Interactive Zoom**: Pinch to zoom up to 3x for detailed reading
 - **Smart Navigation**: 
   - Swipe to turn pages
-  - Quick jump to any page (1-604)
+  - Quick jump to any page (1-606)
   - Page slider for fast navigation
   - Previous/Next page buttons
 

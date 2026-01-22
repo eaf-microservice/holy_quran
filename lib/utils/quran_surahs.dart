@@ -131,4 +131,6 @@ const List<SurahInfo> kSurahs = [
   SurahInfo(112, 'الإخلاص', 'Al-Ikhlas', 604, 604),
   SurahInfo(113, 'الفلق', 'Al-Falaq', 604, 604),
   SurahInfo(114, 'الناس', 'An-Nas', 604, 604),
+
+  SurahInfo(115, 'دعاء الختم', 'Doae', 605, 606),
 ];
