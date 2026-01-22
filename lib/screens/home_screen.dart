@@ -203,6 +203,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Align(
                 alignment: Alignment.center,
                 child: Text(
+                  //should be white color in dark mode
                   'الفهرس',
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
