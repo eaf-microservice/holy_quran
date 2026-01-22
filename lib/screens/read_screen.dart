@@ -81,9 +81,9 @@ class _ReaderScreenState extends State<ReaderScreen>
 
   String _assetForPage(int page) {
     if (page == 605) {
-      return 'images/khatem/page_1.jpg';
+      return 'assets/images/khatem/page_1.jpg';
     } else if (page == 606) {
-      return 'images/khatem/page_2.jpg';
+      return 'assets/images/khatem/page_2.jpg';
     }
 
     // assets/images/quran/###.png or tajweed folder if enabled assets/images/tajweed/###.gif
@@ -305,7 +305,7 @@ class _ReaderScreenState extends State<ReaderScreen>
                                         errorBuilder: (c, e, s) {
                                           return Center(
                                             child: Text(
-                                              'Missing page image: ${_assetForPage(page)}',
+                                              'Missing page',
                                               style: TextStyle(color: fg),
                                             ),
                                           );
