@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:share_plus/share_plus.dart';
 
 class PrefsKeys {
   static const nightMode = 'night_mode';
@@ -30,6 +31,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
     super.initState();
     _load();
   }
+
+  // void _shareApp() {
+  //   Share.share(
+  //     'https://play.google.com/store/apps/details?id=com.eafmicroservice.clementinecafe',
+  //   );
+  // }
 
   Future<void> _load() async {
     final sp = await SharedPreferences.getInstance();
