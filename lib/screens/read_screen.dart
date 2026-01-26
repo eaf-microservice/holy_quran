@@ -176,6 +176,9 @@ class _ReaderScreenState extends State<ReaderScreen>
     final mediaQuery = MediaQuery.of(context);
     final deviceWidth = mediaQuery.size.width;
     final pageAspectRatio = 595 / 842; // portrait page ratio
+    int huzbNumber = getHizbForPage(_currentPage).hizbNumber;
+    int juzNumber = getJuzForPage(_currentPage).juzNumber;
+    String rubType = getRubForPage(_currentPage).type;
 
     return Theme(
       data: _night
@@ -192,11 +195,12 @@ class _ReaderScreenState extends State<ReaderScreen>
                 title: Column(
                   children: [
                     Text(
-                      'الصفحة $_currentPage / $totalPages',
+                      'الصفحة $_currentPage', // / $totalPages
                       style: const TextStyle(fontSize: 12),
                     ),
                     Text(
-                      'الجزء ${getJuzForPage(_currentPage).juzNumber} | الحزب ${getHizbForPage(_currentPage).hizbNumber} | الربع ${getRubForPage(_currentPage).rubNumber}',
+                      'الحزب $huzbNumber | الجزء $juzNumber - $rubType',
+                      textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.normal,
@@ -336,7 +340,7 @@ class _ReaderScreenState extends State<ReaderScreen>
                                 errorBuilder: (c, e, s) {
                                   return Center(
                                     child: Text(
-                                      'Missing page image: ${_assetForPage(page)}',
+                                      'Missing page', //${_assetForPage(page)}
                                       style: TextStyle(color: fg),
                                     ),
                                   );
