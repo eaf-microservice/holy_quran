@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:share_plus/share_plus.dart';
+import 'package:share_plus/share_plus.dart';
 
 class PrefsKeys {
   static const nightMode = 'night_mode';
@@ -32,11 +32,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
     _load();
   }
 
-  // void _shareApp() {
-  //   Share.share(
-  //     'https://play.google.com/store/apps/details?id=com.eafmicroservice.clementinecafe',
-  //   );
-  // }
+  void _shareApp() {
+    Share.share(
+      'https://play.google.com/store/apps/details?id=com.eafmicroservice.holy_quran',
+    );
+  }
 
   Future<void> _load() async {
     final sp = await SharedPreferences.getInstance();
@@ -333,7 +333,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               const SizedBox(height: 24),
               FilledButton(
-                onPressed: () => Navigator.pop(context, true),
+                // onPressed: () => Navigator.pop(context, true),
+                onPressed: () => _shareApp(),
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
