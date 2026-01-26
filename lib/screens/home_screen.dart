@@ -72,9 +72,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return AboutMe(
       applicationName: 'القرآن الكريم',
       logo: Image.asset('assets/icon/icon.png', width: 100, height: 100),
-      version: '1.0.2',
+      version: '1.0.3',
       description:
-          //'Mushaf with search, bookmarks, tajweed, and night mode.',
           'المصحف مزود بخاصية البحث عن السور، والإشارات المرجعية، والتجويد، والوضع الليلي.',
     ).showCustomAbout(context);
   }
@@ -205,7 +204,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Text(
                   //should be white color in dark mode
                   'الفهرس',
-                  style: Theme.of(context).textTheme.titleMedium,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: _night ? Colors.white : Colors.black,
+                  ),
                 ),
               ),
             ),

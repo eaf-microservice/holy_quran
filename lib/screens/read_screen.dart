@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 import '../utils/show_toast.dart';
+import '../utils/quran_devision.dart';
 import 'settings_screen.dart';
 import '../utils/quran_sajda.dart';
 
@@ -86,7 +87,6 @@ class _ReaderScreenState extends State<ReaderScreen>
       return 'assets/images/khatem/page_2.jpg';
     }
 
-    // assets/images/quran/###.png or tajweed folder if enabled assets/images/tajweed/###.gif
     final idx = page.toString().padLeft(3, '0');
     final base = 'assets/images${_tajweed ? '/tajweed' : '/quran'}';
 
@@ -103,11 +103,10 @@ class _ReaderScreenState extends State<ReaderScreen>
     _persistLastPage();
     final sajdah = quranSajdahData.firstWhere(
       (sajda) => sajda.page == _currentPage,
-      orElse: () => SajdaInfo(0, "", "", 0),
+      orElse: () => SajdaInfo(0, "", 0, ""),
     );
     if (sajdah.page == _currentPage) {
-      final sajdahType = sajdah.sajdahType;
-      return showToast(" سجدة في هذه الصفحة $sajdahType");
+      return showToast(" سجدة في هذه الصفحة "); //${sajdah.sajdahType}
     }
   }
 
@@ -190,7 +189,21 @@ class _ReaderScreenState extends State<ReaderScreen>
             ? AppBar(
                 backgroundColor: bg,
                 foregroundColor: fg,
-                title: Text('الصفحة $_currentPage / $totalPages'),
+                title: Column(
+                  children: [
+                    Text(
+                      'الصفحة $_currentPage / $totalPages',
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                    Text(
+                      'الجزء ${getJuzForPage(_currentPage).juzNumber} | الحزب ${getHizbForPage(_currentPage).hizbNumber} | الربع ${getRubForPage(_currentPage).rubNumber}',
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ],
+                ),
                 centerTitle: true,
                 actions: [
                   IconButton(
@@ -390,18 +403,21 @@ class _ReaderScreenState extends State<ReaderScreen>
               },
             ),
             Expanded(
-              child: Slider(
-                value: _currentPage.toDouble(),
-                min: 1,
-                max: totalPages.toDouble(),
-                divisions: totalPages - 1,
-                onChanged: (v) {
-                  setState(() => _currentPage = v.round());
-                },
-                onChangeEnd: (v) {
-                  _pageController.jumpToPage(totalPages - _currentPage);
-                  _persistLastPage();
-                },
+              child: Directionality(
+                textDirection: TextDirection.rtl,
+                child: Slider(
+                  value: _currentPage.toDouble(),
+                  min: 1,
+                  max: totalPages.toDouble(),
+                  divisions: totalPages - 1,
+                  onChanged: (v) {
+                    setState(() => _currentPage = v.round());
+                  },
+                  onChangeEnd: (v) {
+                    _pageController.jumpToPage(totalPages - _currentPage);
+                    _persistLastPage();
+                  },
+                ),
               ),
             ),
             IconButton(

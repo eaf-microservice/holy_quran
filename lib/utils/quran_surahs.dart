@@ -1,5 +1,4 @@
 // Minimal Surah metadata (index, arabic name, english name, start page, end page)
-// The page ranges here are placeholders for wiring; update with accurate data later if needed.
 
 class SurahInfo {
   final int index; // 1..114
