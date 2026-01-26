@@ -34,6 +34,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   void _shareApp() {
     Share.share(
+      //'https://play.google.com/store/apps/details?id=com.eafmicroservice.holy_quran&pcampaignid=web_share'
       'https://play.google.com/store/apps/details?id=com.eafmicroservice.holy_quran',
     );
   }
