@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
+import 'settings_screen.dart';
 import '../utils/show_toast.dart';
 import '../utils/quran_devision.dart';
-import 'settings_screen.dart';
 import '../utils/quran_sajda.dart';
 
 class ReaderScreen extends StatefulWidget {
@@ -106,7 +106,26 @@ class _ReaderScreenState extends State<ReaderScreen>
       orElse: () => SajdaInfo(0, "", 0, ""),
     );
     if (sajdah.page == _currentPage) {
-      return showToast(" سجدة في هذه الصفحة "); //${sajdah.sajdahType}
+      showToast(
+        " سجدة في هذه الصفحة ",
+        backgroundColor: Colors.orange.shade700,
+      ); //${sajdah.sajdahType}
+    }
+
+    final juz = getJuzForPage(_currentPage);
+    if (juz.pageStart == _currentPage) {
+      showToast(
+        "بداية الجزء ${juz.juzNumber}",
+        backgroundColor: Colors.teal.shade700,
+      );
+    }
+
+    final hizb = getHizbForPage(_currentPage);
+    if (hizb.pageStart == _currentPage) {
+      showToast(
+        "بداية الحزب ${hizb.hizbNumber}",
+        backgroundColor: Colors.blue.shade700,
+      );
     }
   }
 
@@ -312,21 +331,13 @@ class _ReaderScreenState extends State<ReaderScreen>
                                     ),
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(8),
-                                      child: Image.asset(
+                                      child: _buildPageImage(
                                         _assetForPage(page),
-                                        fit: BoxFit.contain,
+                                        BoxFit.contain,
                                         width: deviceWidth * 0.9,
                                         height:
                                             (deviceWidth * 0.9) /
                                             pageAspectRatio,
-                                        errorBuilder: (c, e, s) {
-                                          return Center(
-                                            child: Text(
-                                              'Missing page',
-                                              style: TextStyle(color: fg),
-                                            ),
-                                          );
-                                        },
                                       ),
                                     ),
                                   ),
@@ -334,17 +345,9 @@ class _ReaderScreenState extends State<ReaderScreen>
                               ),
                             )
                           : SizedBox.expand(
-                              child: Image.asset(
+                              child: _buildPageImage(
                                 _assetForPage(page),
-                                fit: BoxFit.fill,
-                                errorBuilder: (c, e, s) {
-                                  return Center(
-                                    child: Text(
-                                      'Missing page', //${_assetForPage(page)}
-                                      style: TextStyle(color: fg),
-                                    ),
-                                  );
-                                },
+                                BoxFit.fill,
                               ),
                             ),
                     ),
@@ -370,6 +373,57 @@ class _ReaderScreenState extends State<ReaderScreen>
             : null,
       ),
     );
+  }
+
+  Widget _buildPageImage(
+    String asset,
+    BoxFit fit, {
+    double? width,
+    double? height,
+  }) {
+    final image = Image.asset(
+      asset,
+      fit: fit,
+      width: width,
+      height: height,
+      errorBuilder: (c, e, s) {
+        return Center(
+          child: Text(
+            'Missing page',
+            style: TextStyle(color: _night ? Colors.white : Colors.black87),
+          ),
+        );
+      },
+    );
+
+    if (_night) {
+      return ColorFiltered(
+        colorFilter: const ColorFilter.matrix([
+          -1,
+          0,
+          0,
+          0,
+          255,
+          0,
+          -1,
+          0,
+          0,
+          255,
+          0,
+          0,
+          -1,
+          0,
+          255,
+          0,
+          0,
+          0,
+          1,
+          0,
+        ]),
+        child: image,
+      );
+    }
+    return image;
   }
 
   double _computeYRotation(int index) {

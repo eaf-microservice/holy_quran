@@ -204,8 +204,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
               _buildReadingModeOption(
                 context,
                 ReadingMode.normal,
-                'المصحف العادي',
-                'الصفحات العادية',
+                'المصحف المدينة',
+                'الصفحات المدينة',
                 'assets/images/quran/001.webp',
               ),
               const SizedBox(height: 8),
