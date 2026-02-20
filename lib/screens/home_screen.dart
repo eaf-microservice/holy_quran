@@ -158,7 +158,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   Expanded(
                     child: TextField(
                       textAlign: TextAlign.center,
-
                       decoration: InputDecoration(
                         hintText: 'ابحث عن السور (عربي/انجليزي أو رقم السورة)',
                         prefixIcon: const Icon(Icons.search),
@@ -199,54 +198,109 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-              child: Align(
-                alignment: Alignment.center,
-                child: Text(
-                  //should be white color in dark mode
-                  'الفهرس',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: _night ? Colors.white : Colors.black,
+              child: SegmentedButton<bool>(
+                segments: const [
+                  ButtonSegment<bool>(
+                    value: true,
+                    label: Text('فهرس السور'),
+                    icon: Icon(Icons.list),
                   ),
-                ),
+                  ButtonSegment<bool>(
+                    value: false,
+                    label: Text('فهرس الأجزاء'),
+                    icon: Icon(Icons.grid_view_outlined),
+                  ),
+                ],
+                selected: {_showSurahs},
+                onSelectionChanged: (Set<bool> newSelection) {
+                  setState(() {
+                    _showSurahs = newSelection.first;
+                  });
+                },
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: _filteredSurahs.length,
-                itemBuilder: (ctx, i) {
-                  final s = _filteredSurahs[i];
-                  return Card(
-                    child: ListTile(
-                      leading: IconButton(
-                        tooltip: 'افتح',
-                        icon: const Icon(Icons.menu_book_outlined),
-                        onPressed: () => _openReader(initialPage: s.startPage),
-                      ),
-                      title: Text(
-                        s.arabic,
-                        textAlign: TextAlign.right,
-                        textDirection: TextDirection.rtl,
-                      ),
-                      subtitle: Text(
-                        '${s.english} • p${s.startPage}-${s.endPage}',
-                        textAlign: TextAlign.right,
-                        textDirection: TextDirection.rtl,
-                      ),
-                      trailing: CircleAvatar(
-                        backgroundColor: Theme.of(
-                          context,
-                        ).colorScheme.primary.withValues(alpha: 0.15),
-                        // ).colorScheme.primary.withOpacity(0.15),
-                        child: Text(
-                          '${s.index}',
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      onTap: () => _openReader(initialPage: s.startPage),
+              child: _showSurahs
+                  ? ListView.builder(
+                      itemCount: _filteredSurahs.length,
+                      itemBuilder: (ctx, i) {
+                        final s = _filteredSurahs[i];
+                        return Card(
+                          child: ListTile(
+                            leading: IconButton(
+                              tooltip: 'افتح',
+                              icon: const Icon(Icons.menu_book_outlined),
+                              onPressed: () =>
+                                  _openReader(initialPage: s.startPage),
+                            ),
+                            title: Text(
+                              s.arabic,
+                              textAlign: TextAlign.right,
+                              textDirection: TextDirection.rtl,
+                            ),
+                            subtitle: Text(
+                              '${s.english} • p${s.startPage}-${s.endPage}',
+                              textAlign: TextAlign.right,
+                              textDirection: TextDirection.rtl,
+                            ),
+                            trailing: CircleAvatar(
+                              backgroundColor: Theme.of(
+                                context,
+                              ).colorScheme.primary.withValues(alpha: 0.15),
+                              child: Text(
+                                '${s.index}',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            onTap: () => _openReader(initialPage: s.startPage),
+                          ),
+                        );
+                      },
+                    )
+                  : ListView.builder(
+                      itemCount: quranJuzData.length,
+                      itemBuilder: (ctx, i) {
+                        final juz = quranJuzData[i];
+                        return Card(
+                          child: ListTile(
+                            leading: IconButton(
+                              tooltip: 'افتح',
+                              icon: const Icon(Icons.menu_book_outlined),
+                              onPressed: () =>
+                                  _openReader(initialPage: juz.pageStart),
+                            ),
+                            title: Text(
+                              'الجزء ${juz.juzNumber}',
+                              textAlign: TextAlign.right,
+                              textDirection: TextDirection.rtl,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            subtitle: Text(
+                              'بداية من الصفحة ${juz.pageStart}',
+                              textAlign: TextAlign.right,
+                              textDirection: TextDirection.rtl,
+                            ),
+                            trailing: CircleAvatar(
+                              backgroundColor: Theme.of(
+                                context,
+                              ).colorScheme.primary.withValues(alpha: 0.15),
+                              child: Text(
+                                '${juz.juzNumber}',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            onTap: () =>
+                                _openReader(initialPage: juz.pageStart),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
             ),
           ],
         ),
