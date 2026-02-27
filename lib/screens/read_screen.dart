@@ -8,6 +8,7 @@ import 'settings_screen.dart';
 import '../utils/show_toast.dart';
 import '../utils/quran_devision.dart';
 import '../utils/quran_sajda.dart';
+import '../utils/quran_surahs.dart';
 
 class ReaderScreen extends StatefulWidget {
   final int initialPage; // 1..604
@@ -214,11 +215,11 @@ class _ReaderScreenState extends State<ReaderScreen>
                 title: Column(
                   children: [
                     Text(
-                      'الصفحة $_currentPage', // / $totalPages
+                      '${getSurahNameForPage(_currentPage)} - الصفحة $_currentPage', // / $totalPages
                       style: const TextStyle(fontSize: 12),
                     ),
                     Text(
-                      'الحزب $huzbNumber | الجزء $juzNumber - $rubType',
+                      'الجزء $juzNumber | الحزب $huzbNumber - $rubType',
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontSize: 14,

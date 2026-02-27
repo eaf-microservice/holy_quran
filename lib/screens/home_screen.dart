@@ -1,7 +1,8 @@
-import 'package:eaf/utils/quran_surahs.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../utils/quran_devision.dart';
+import '../utils/quran_surahs.dart';
 import '../widgets/about.dart' show AboutMe;
 import 'read_screen.dart';
 import 'settings_screen.dart';
@@ -26,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _night = false;
   bool _tajweed = false;
   String _query = '';
+  bool _showSurahs = true;
 
   @override
   void initState() {
@@ -72,9 +74,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return AboutMe(
       applicationName: 'القرآن الكريم',
       logo: Image.asset('assets/icon/icon.png', width: 100, height: 100),
-      version: '1.0.4',
+      version: '1.0.6',
       description:
-          'المصحف مزود بخاصية البحث عن السور، والإشارات المرجعية، والتجويد، والوضع الليلي.',
+          'المصحف مزود بخاصية البحث عن السور، والإشارات المرجعية، والوضع الليلي.',
     ).showCustomAbout(context);
   }
 
